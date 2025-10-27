@@ -1,5 +1,8 @@
 // Nama File: screens/LikedMusicScreen.js
-// Perbaikan: Mengembalikan JSX lengkap untuk SongItem
+// Penjelasan singkat:
+// Menampilkan lagu-lagu yang disukai. likedSongIds adalah Set dari App.js.
+// Kita filter allSongs berdasarkan id yang ada di likedSongIds.
+// Ketika tekan item, logic sama: cari index asli lalu setCurrentSongIndex dan navigasi.
 
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -18,7 +21,7 @@ const TEXT_COLOR = '#FFFFFF';
 const SUBTEXT_COLOR = '#A0AEC0';
 const LIKE_COLOR = '#1DB954'; // Hijau Spotify
 
-// === KEMBALIKAN JSX LENGKAP DI SINI ===
+// Komponen item sederhana dengan ikon hati
 const SongItem = ({ item, isPlaying, onPress }) => (
   <TouchableOpacity style={styles.songItemContainer} onPress={onPress}>
     <Image source={{ uri: item.artwork }} style={styles.artwork} />
@@ -28,11 +31,10 @@ const SongItem = ({ item, isPlaying, onPress }) => (
       </Text>
       <Text style={styles.songArtist} numberOfLines={1}>{item.artist}</Text>
     </View>
-    {/* Ikon hati untuk layar Disukai */}
+    {/* Ikon hati statis pada layar liked */}
     <Ionicons name="heart" size={24} color={LIKE_COLOR} style={styles.playingIcon} />
   </TouchableOpacity>
 );
-// === AKHIR PENGEMBALIAN ===
 
 export default function LikedMusicScreen({
   navigation,
@@ -42,6 +44,7 @@ export default function LikedMusicScreen({
   setCurrentSongIndex
 }) {
 
+  // Filter lagu berdasarkan id yang disimpan di likedSongIds
   const likedSongs = allSongs.filter(song => likedSongIds.has(song.id));
 
   const handlePlaySong = (selectedSong) => {
